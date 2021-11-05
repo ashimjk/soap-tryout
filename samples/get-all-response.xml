@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Header/>
+    <SOAP-ENV:Body>
+        <ns2:GetAllCourseDetailResponse xmlns:ns2="http://ashimjk.com/courses"
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                        xsi:schemaLocation="http://ashimjk.com/courses course-detail.xsd"
+        >
+            <ns2:CourseDetail>
+                <ns2:id>1</ns2:id>
+                <ns2:name>SOAP</ns2:name>
+                <ns2:description>SOAP API</ns2:description>
+            </ns2:CourseDetail>
+            <ns2:CourseDetail>
+                <ns2:id>2</ns2:id>
+                <ns2:name>Service</ns2:name>
+                <ns2:description>Web Service</ns2:description>
+            </ns2:CourseDetail>
+            <ns2:CourseDetail>
+                <ns2:id>3</ns2:id>
+                <ns2:name>Java</ns2:name>
+                <ns2:description>Java-Core</ns2:description>
+            </ns2:CourseDetail>
+        </ns2:GetAllCourseDetailResponse>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

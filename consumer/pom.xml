@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>soap</artifactId>
+        <groupId>com.ashimjk</groupId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>consumer</artifactId>
+
+    <properties>
+        <wsdl.files.directory>${project.basedir}/src/main/resources</wsdl.files.directory>
+        <wsdl.output.package>com.ashimjk.soap.consumer.wsdl</wsdl.output.package>
+        <wsdl.courses>courses.wsdl</wsdl.courses>
+        <wsdl.courses.url>http://localhost:8081/ws/${wsdl.courses}</wsdl.courses.url>
+
+        <jaxws-ri.version>2.3.3</jaxws-ri.version>
+        <maven-jaxb2-plugin.version>0.14.0</maven-jaxb2-plugin.version>
+        <cxf-codegen-plugin.version>3.4.3</cxf-codegen-plugin.version>
+        <jaxws-maven-plugin.version>2.6</jaxws-maven-plugin.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web-services</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-ri</artifactId>
+            <version>${jaxws-ri.version}</version>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.jvnet.jaxb2.maven2</groupId>
+                    <artifactId>maven-jaxb2-plugin</artifactId>
+                    <version>${maven-jaxb2-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <schemaLanguage>WSDL</schemaLanguage>
+                        <generatePackage>${wsdl.output.package}</generatePackage>
+                        <schemaDirectory>${wsdl.files.directory}</schemaDirectory>
+                        <schemaIncludes>
+                            <include>${wsdl.courses}</include>
+                        </schemaIncludes>
+                        <noFileHeader>true</noFileHeader>
+                        <!-- Using WSDL URL to generate Java Code -->
+                        <!--<schemas>-->
+                        <!--    <schema>-->
+                        <!--        <url>${wsdl.courses.url}</url>-->
+                        <!--    </schema>-->
+                        <!--</schemas>-->
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.cxf</groupId>
+                    <artifactId>cxf-codegen-plugin</artifactId>
+                    <version>${cxf-codegen-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>generate-sources</id>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>wsdl2java</goal>
+                            </goals>
+                            <configuration>
+                                <wsdlOptions>
+                                    <wsdlOption>
+                                        <wsdl>${wsdl.files.directory}/${wsdl.courses}</wsdl>
+                                        <extraargs>
+                                            <extraarg>-autoNameResolution</extraarg>
+                                        </extraargs>
+                                        <packagenames>
+                                            <packagename>${wsdl.output.package}</packagename>
+                                        </packagenames>
+                                    </wsdlOption>
+                                </wsdlOptions>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>jaxws-maven-plugin</artifactId>
+                    <version>${jaxws-maven-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>wsimport</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <packageName>${wsdl.output.package}</packageName>
+                        <wsdlDirectory>${wsdl.files.directory}/</wsdlDirectory>
+                        <!--<sourceDestDir>${project.build.directory}/generated-sources/</sourceDestDir>-->
+                        <!-- Using WSDL URL to generate Java Code -->
+                        <!--<wsdlUrls>-->
+                        <!--    <wsdlUrl>${wsdl.courses.url}</wsdlUrl>-->
+                        <!--</wsdlUrls>-->
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb2-plugin</artifactId>
+            </plugin>
+
+            <!--<plugin>-->
+            <!--    <groupId>org.apache.cxf</groupId>-->
+            <!--    <artifactId>cxf-codegen-plugin</artifactId>-->
+            <!--</plugin>-->
+
+            <!--<plugin>-->
+            <!--    <groupId>org.codehaus.mojo</groupId>-->
+            <!--    <artifactId>jaxws-maven-plugin</artifactId>-->
+            <!--</plugin>-->
+        </plugins>
+    </build>
+
+</project>

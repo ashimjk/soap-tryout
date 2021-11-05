@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+    <Body>
+        <DeleteCourseDetailRequest
+                xmlns="http://ashimjk.com/courses"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://ashimjk.com/courses course-detail.xsd"
+        >
+            <id>1</id>
+        </DeleteCourseDetailRequest>
+    </Body>
+</Envelope>
